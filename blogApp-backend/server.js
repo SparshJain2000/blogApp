@@ -9,22 +9,20 @@ const express = require("express"),
     userRouter = require("./routes/user.router"),
     bodyParser = require("body-parser");
 require("dotenv").config();
-
+//===========================================================================
 app.use(bodyParser.json());
 app.use(cors());
-
 app.use(
     require("express-session")({
-        secret: "Jain",
+        secret: process.env.SECRET,
         resave: false,
         saveUninitialized: false,
     })
 );
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
     res.locals.currentUser = req.user;
     next();
 });
-
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(
@@ -32,15 +30,16 @@ passport.use(
 );
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
-
+//===========================================================================
 mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useCreateIndex: true,
 });
 mongoose.connection.once("open", () => {
     console.log("connected to MONGO");
 });
-
+//===========================================================================
 app.get("/", (req, res) => {
     res.json({ name: "sparsh jain" });
 });

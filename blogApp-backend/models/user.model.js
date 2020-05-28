@@ -7,5 +7,5 @@ const userSchema = new mongoose.Schema({
     password: String,
 });
 
-UserSchema.plugin(passportLocalMongoose);
+userSchema.plugin(passportLocalMongoose);
 module.exports = mongoose.model("User", userSchema);

@@ -1,9 +1,10 @@
 const router = require("express").Router(),
+    passport = require("passport"),
     User = require("../models/user.model");
 
 //Login route
 router.post("/login", passport.authenticate("local"), (req, res) => {
-    res.json({ message: `${req.user} Logged in` });
+    res.json({ message: `${req.user.username} Logged in` });
 });
 
 //Logout route
@@ -21,7 +22,7 @@ router.post("/", (req, res) => {
                 res.json(user);
             });
         })
-        .catch((err) => res.json(err));
+        .catch((err) => res.status(400).json({ err: err }));
 });
 
 module.exports = router;

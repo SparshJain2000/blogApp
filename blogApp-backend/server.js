@@ -40,9 +40,6 @@ mongoose.connection.once("open", () => {
     console.log("connected to MONGO");
 });
 //===========================================================================
-app.get("/", (req, res) => {
-    res.json({ name: "sparsh jain" });
-});
 app.use("/blogs", blogsRouter);
 app.use("/users", userRouter);
 

@@ -9,7 +9,7 @@ router.route("/").get((req, res) => {
         .then((users) => {
             res.json({
                 users: users.map((user) => {
-                    return { username: user.username };
+                    return { username: user };
                 }),
             });
         })
@@ -25,7 +25,7 @@ router.post("/", (req, res) => {
     User.register(user, req.body.password)
         .then((user) => {
             passport.authenticate("local")(req, res, () => {
-                res.json({ user: user.username });
+                res.json({ user: user });
             });
         })
         .catch((err) => res.status(400).json({ err: err }));
@@ -33,7 +33,7 @@ router.post("/", (req, res) => {
 //===========================================================================
 //Login route
 router.post("/login", passport.authenticate("local"), (req, res) => {
-    res.json({ message: `${req.user.username} Logged in` });
+    res.json({ user: req.user, message: `${req.user.username} Logged in` });
 });
 //===========================================================================
 //Logout route
@@ -41,7 +41,9 @@ router.get("/logout", (req, res) => {
     req.logout();
     res.json({ message: "Logged Out" });
 });
-
+router.get("/current", (req, res) => {
+    res.json({ user: req.user });
+});
 module.exports = router;
 
 /*

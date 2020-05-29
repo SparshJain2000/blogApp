@@ -7,7 +7,8 @@ middleware.isLoggedIn = (req, res, next) => {
 };
 middleware.checkBlogOwnership = (req, res, next) => {
     req.isAuthenticated()
-        ? Blog.findById(req.params.id)
+        ? //Is Authorized
+          Blog.findById(req.params.id)
               .then((foundBlog) => {
                   foundBlog.author.id.equals(req.user._id)
                       ? next()

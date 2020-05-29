@@ -28,24 +28,28 @@ export default class login extends Component {
             username: this.state.username,
             password: this.state.password,
         };
-        console.log(this.props);
+        // console.log(this.props);
         axios
             .post("/users/login", user)
             .then((res) => {
                 this.props.updateUser(res.data.user).then(() => {
-                    console.log(this.props.user);
+                    console.log("asdf");
                     window.location = "/";
                 });
 
                 // console.log(this.props);
                 // window.location = "blogs";
-                console.log(this.props);
+                // console.log(this.props);
             })
             .catch((err) => console.log(err));
+
         // this.setState({
         //     username: "",
         //     password: "",
         // });
+    }
+    componentDidMount() {
+        if (this.props.user) window.location = "/";
     }
     render() {
         return (

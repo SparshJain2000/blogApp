@@ -8,6 +8,15 @@ import {
     Collapse,
     Nav,
     NavbarToggler,
+    Modal,
+    ModalBody,
+    ModalHeader,
+    ModalFooter,
+    Button,
+    Form,
+    FormGroup,
+    Label,
+    Input,
 } from "reactstrap";
 import { setGlobalCssModule } from "reactstrap/lib/utils";
 export default class NavbarComponent extends Component {
@@ -15,11 +24,11 @@ export default class NavbarComponent extends Component {
         super(props);
         this.toggle = this.toggle.bind(this);
         this.logout = this.logout.bind(this);
+        this.addPost = this.addPost.bind(this);
         this.state = {
             isOpen: false,
             navCollapsed: true,
             showNavbar: false,
-            isLoggedIn: true,
             user: null,
         };
     }
@@ -48,6 +57,27 @@ export default class NavbarComponent extends Component {
                 });
             })
             .catch((err) => console.log(err));
+        window.location = "/";
+    }
+
+    addPost(event) {
+        // const blog = {
+        //     title: this.title.value,
+        //     image: this.imageURL.value,
+        //     body: this.body.value,
+        // };
+        // console.log(blog);
+        // alert(blog.title);
+        // // axios.post("/blogs");
+        // axios
+        //     .post("/blogs", blog)
+        //     .then((blog) => {
+        //         console.log(blog);
+        //         window.location = "/blogs";
+        //     })
+        //     .catch((err) => console.log(err));
+        // event.preventDefault();
+        // this.toggleModal();
     }
     render() {
         return (
@@ -59,22 +89,29 @@ export default class NavbarComponent extends Component {
                 </NavbarBrand>
                 <NavbarToggler onClick={this.toggle} />{" "}
                 <Collapse isOpen={this.state.isOpen} navbar>
-                    <Nav className='ml-auto' navbar>
-                        <NavItem className='navbar-item'>
-                            {this.state.user ? (
-                                <a className='nav-link' onClick={this.logout}>
-                                    Logout
+                    {this.state.user ? (
+                        <Nav className='ml-auto' navbar>
+                            <NavItem className='navbar-item'>
+                                <a
+                                    className=' btn btn-primary text-white'
+                                    onClick={this.logout}>
+                                    {this.state.user.username}
                                 </a>
-                            ) : (
+                            </NavItem>
+                        </Nav>
+                    ) : (
+                        <Nav className='ml-auto' navbar>
+                            <NavItem className='navbar-item'>
                                 <Link className='nav-link' to='/login'>
                                     Login
                                 </Link>
-                            )}
-                        </NavItem>
-                    </Nav>
+                            </NavItem>
+                        </Nav>
+                    )}
                 </Collapse>
             </Navbar>
         );
     }
 }
 // export default NavbarComponent;
+// Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti voluptates fugit distinctio, deserunt nostrum itaque et nemo quod quae dolorum qui illo obcaecati totam voluptatem in dicta enim iusto excepturi.

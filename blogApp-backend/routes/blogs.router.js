@@ -15,8 +15,8 @@ router.post("/", middleware.isLoggedIn, (req, res) => {
         title: req.body.title,
         image: req.body.image,
         body: req.body.body,
+        date: new Date(),
     });
-    console.log(req.user);
     Blog.create(blog)
         .then((blog) => {
             blog.author.username = req.user.username;
@@ -41,6 +41,7 @@ router.put("/:id", middleware.checkBlogOwnership, (req, res) => {
         blog.title = req.body.title;
         blog.image = req.body.image;
         blog.body = req.body.body;
+        blog.date = new Date();
         blog.save()
             .then((updatedBlog) => res.json(updatedBlog))
             .catch((err) => res.status(400).json(err));

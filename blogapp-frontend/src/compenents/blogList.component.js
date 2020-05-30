@@ -13,107 +13,78 @@ import {
     ModalBody,
     ModalHeader,
     ModalFooter,
-    Spinner,
     Form,
     FormGroup,
     Label,
     Input,
 } from "reactstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import ReactLoading from "react-loading";
-
-const Loading = require("react-loading-animation");
+// const Loading = require("react-loading-animation");
 const Blog = ({ blog, user }) => {
     return (
-        <div className='col-12 col-md-6 col-lg-4 mb-5'>
-            <a className='text-decoration-none'>
-                <Card className='p-1 m-1'>
-                    <CardImg
-                        top
-                        width='100%'
-                        src={blog.image}
-                        alt='Card image cap'
-                        className='img-thumbnail'
-                    />
-                    <CardBody>
-                        <CardTitle className='text-primary'>
-                            <strong>{blog.title}</strong>
-                        </CardTitle>
-                        <CardSubtitle>
-                            {/* {this.state.author.username} */}
-                        </CardSubtitle>
-                        <CardText className='text-black-50'>
-                            {blog.body.substring(0, 30)}
-                            {" ..."}
-                        </CardText>
-                    </CardBody>
-                    {user === null ? (
-                        ""
-                    ) : user._id === blog.author.id ? (
-                        <div style={{ display: "flex" }} className='p-1'>
-                            <Button
-                                className='btn btn-danger mr-1'
-                                style={{ width: "48%" }}>
-                                Delete
-                            </Button>{" "}
-                            <Button
-                                className='btn btn-warning ml-1'
-                                style={{ width: "48%" }}>
-                                Edit
-                            </Button>
-                        </div>
-                    ) : (
-                        ""
-                    )}
-                </Card>
-            </a>
+        <div className='col-12 col-md-6 col-lg-4 col-xl-3 mb-5' key={blog._id}>
+            <Card className='p-1 m-1' id='cards'>
+                <CardImg
+                    top
+                    width='100%'
+                    src={blog.image}
+                    alt='Card image cap'
+                    className='img-fluid'
+                />
+                <CardBody>
+                    <CardTitle className='text-primary'>
+                        <h5>{blog.title}</h5>
+                    </CardTitle>
+                    <CardSubtitle>
+                        {"-"}
+                        <em>@{blog.author.username}</em>
+                    </CardSubtitle>
+                    <br />
+                    <CardText className=''>
+                        {blog.body.substring(0, 50)}
+                        {" ..."}
+                    </CardText>
+                    <Link
+                        to={{
+                            pathname: `/blog/${blog._id}`,
+                            blog: { blog },
+                        }}
+                        className='text-decoration-none'>
+                        <Button className='btn btn-sm' color='success'>
+                            Read More
+                        </Button>
+                    </Link>
+                </CardBody>
+                {blog.date ? (
+                    <CardFooter className='small '>
+                        <FontAwesomeIcon icon={faCalendar} className='mr-2' />
+                        {new Intl.DateTimeFormat("en-US", {
+                            month: "long",
+                            day: "numeric",
+                            year: "numeric",
+                            hour: "numeric",
+                            minute: "numeric",
+                        }).format(Date.parse(blog.date))}
+                        {/* {blog.date} */}
+                    </CardFooter>
+                ) : (
+                    ""
+                )}
+            </Card>
         </div>
     );
 };
 const Blogs = ({ blogs, user }) => {
     console.log(blogs);
     console.log(user);
-
-    const [modal, setModal] = useState(false);
-    const toggle = () => setModal(!modal);
     return blogs.map((blog) => {
-        return (
-            <div className='col-12 col-md-6 col-lg-4 mb-5'>
-                <Link
-                    to={{
-                        pathname: `/blog/${blog._id}`,
-                        blog: { blog },
-                    }}
-                    className='text-decoration-none'>
-                    <Card className='p-1 m-1' id='cards'>
-                        <CardImg
-                            top
-                            width='100%'
-                            src={blog.image}
-                            alt='Card image cap'
-                            className='img-thumbnail'
-                        />
-                        <CardBody>
-                            <CardTitle className='text-primary'>
-                                <h5>{blog.title}</h5>
-                            </CardTitle>
-                            <CardSubtitle className='text-dark'>
-                                {"-"}
-                                <em>@{blog.author.username}</em>
-                            </CardSubtitle>
-                            <CardText className='text-black-50'>
-                                {blog.body.substring(0, 30)}
-                                {" ..."}
-                            </CardText>
-                        </CardBody>
-                    </Card>
-                </Link>
-            </div>
-        );
+        return <Blog key={blog._id} blog={blog} user={user} />;
     });
     // return blogList;
 };
-let timer = null;
 export default class blogList extends Component {
     constructor(props) {
         super(props);
@@ -135,7 +106,7 @@ export default class blogList extends Component {
             .get("/blogs")
             .then((res) => this.setState({ blogs: res.data.blogs }))
             .catch((err) => {
-                // console.log(err.err);
+                console.log(err);
                 // if (err.err == "Not Logged in")
                 window.location = "/login";
             });
@@ -169,10 +140,10 @@ export default class blogList extends Component {
         console.log(blog);
         axios
             .post("/blogs", blog)
-            .then((res) => {
-                console.log(res.data);
+            .then(({ data: { blog } }) => {
+                console.log(blog);
                 this.setState({
-                    blogs: [...this.state.blogs, res.data.blog],
+                    blogs: [blog, ...this.state.blogs],
                 });
             })
             .catch((err) => console.log(err));
@@ -186,13 +157,23 @@ export default class blogList extends Component {
     }
     render() {
         return (
-            <div
-                className='container row'
-                style={{
-                    marginLeft: "10vw",
-                    marginRight: "10vw",
-                }}>
-                <div className='row mt-5 col-8'>
+            <div className=''>
+                <Button
+                    color='danger'
+                    onClick={this.toggleModal}
+                    style={{
+                        marginLeft: "15vw",
+                        marginTop: "2vh",
+                        width: "70vw",
+                    }}>
+                    Add a BLOG
+                </Button>
+                <div
+                    className='row pt-4'
+                    style={{
+                        marginLeft: "5vw",
+                        width: "90vw",
+                    }}>
                     {this.state.blogs ? (
                         <Blogs
                             blogs={this.state.blogs}
@@ -202,91 +183,57 @@ export default class blogList extends Component {
                         <ReactLoading
                             type={"spin"}
                             color={"orange"}
-                            height={"100%"}
+                            height={"100vh"}
                             width={"40%"}
                             className='loading'
                         />
                     )}
-                    {/* <Modal
-                    isOpen={modal}
-                    toggle={toggle}
-                    autoFocus={true}
-                    scrollable={true}
-                    z-index={120}
-                    fade={true}
-                    backdrop={false}>
-                    <ModalHeader toggle={toggle}>{blog.title}</ModalHeader>
-                    <ModalBody>
-                        <img
-                            src={blog.image}
-                            alt='blog image'
-                            className='img-fluid'
-                        />
-                        {blog.body}
-                    </ModalBody>
-                    <ModalFooter>
-                        <Button color='primary' onClick={toggle}>
-                            Do Something
-                        </Button>{" "}
-                        <Button color='secondary' onClick={toggle}>
-                            Cancel
-                        </Button>
-                    </ModalFooter>
-                </Modal> */}
+
+                    <Modal
+                        isOpen={this.state.isModalOpen}
+                        fade={false}
+                        toggle={this.toggleModal}>
+                        <ModalHeader toggle={this.toggleModal}>
+                            Add a blog
+                        </ModalHeader>
+                        <Form onSubmit={this.onSubmit}>
+                            <ModalBody>
+                                <FormGroup>
+                                    <Label htmlFor='title'>title</Label>
+                                    <Input
+                                        type='text'
+                                        id='title'
+                                        onChange={this.ontitleChange}
+                                        name='title'></Input>
+                                </FormGroup>
+                                <FormGroup>
+                                    <Label htmlFor='imageURL'>imageURL</Label>
+                                    <Input
+                                        type='text'
+                                        id='imageURL'
+                                        onChange={this.onimgChange}
+                                        name='imageURL'></Input>
+                                </FormGroup>
+                                <FormGroup>
+                                    <Label htmlFor='body'>body</Label>
+                                    <Input
+                                        type='textarea'
+                                        id='body'
+                                        onChange={this.onbodyChange}
+                                        name='body'></Input>
+                                </FormGroup>
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button
+                                    type='submit'
+                                    value='submit'
+                                    color='primary'>
+                                    Add BLOG
+                                </Button>
+                            </ModalFooter>
+                        </Form>
+                    </Modal>
                 </div>
-                <div className='col-12 col-md-4 mt-5'>
-                    <Button
-                        style={{ width: "100%" }}
-                        className='btn btn-lg p-3'
-                        color='primary'
-                        onClick={this.toggleModal}>
-                        Add Blog
-                    </Button>
-                </div>
-                <Modal
-                    isOpen={this.state.isModalOpen}
-                    fade={false}
-                    toggle={this.toggleModal}>
-                    <ModalHeader toggle={this.toggleModal}>
-                        Add a blog
-                    </ModalHeader>
-                    <Form onSubmit={this.onSubmit}>
-                        <ModalBody>
-                            <FormGroup>
-                                <Label htmlFor='title'>title</Label>
-                                <Input
-                                    type='text'
-                                    id='title'
-                                    onChange={this.ontitleChange}
-                                    name='title'></Input>
-                            </FormGroup>
-                            <FormGroup>
-                                <Label htmlFor='imageURL'>imageURL</Label>
-                                <Input
-                                    type='text'
-                                    id='imageURL'
-                                    onChange={this.onimgChange}
-                                    name='imageURL'></Input>
-                            </FormGroup>
-                            <FormGroup>
-                                <Label htmlFor='body'>body</Label>
-                                <Input
-                                    type='textarea'
-                                    id='body'
-                                    onChange={this.onbodyChange}
-                                    name='body'></Input>
-                            </FormGroup>
-                        </ModalBody>
-                        <ModalFooter>
-                            <Button
-                                type='submit'
-                                value='submit'
-                                color='primary'>
-                                Add BLOG
-                            </Button>
-                        </ModalFooter>
-                    </Form>
-                </Modal>
             </div>
         );
     }

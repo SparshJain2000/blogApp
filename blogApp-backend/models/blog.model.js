@@ -7,6 +7,7 @@ module.exports = mongoose.model(
         title: String,
         image: String,
         body: String,
+        date: Date,
         author: {
             id: {
                 type: mongoose.Schema.Types.ObjectId,

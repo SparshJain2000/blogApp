@@ -1,15 +1,30 @@
 import React, { Component } from "react";
-import { Label, Form } from "reactstrap";
+import {
+    Label,
+    Form,
+    Button,
+    FormGroup,
+    Input,
+    Modal,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+} from "reactstrap";
 import axios from "axios";
 export default class login extends Component {
     constructor(props) {
         super(props);
         this.onChangePassword = this.onChangePassword.bind(this);
         this.onChangeUsername = this.onChangeUsername.bind(this);
+        this.onChangeEmail = this.onChangeEmail.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.toggleModal = this.toggleModal.bind(this);
+        this.addUser = this.addUser.bind(this);
         this.state = {
             username: "",
             password: "",
+            email: "",
+            isModalOpen: false,
         };
     }
     onChangeUsername(e) {
@@ -20,6 +35,16 @@ export default class login extends Component {
     onChangePassword(e) {
         this.setState({
             password: e.target.value,
+        });
+    }
+    onChangeEmail(e) {
+        this.setState({
+            email: e.target.value,
+        });
+    }
+    toggleModal() {
+        this.setState({
+            isModalOpen: !this.state.isModalOpen,
         });
     }
     onSubmit(e) {
@@ -36,54 +61,124 @@ export default class login extends Component {
                     console.log("asdf");
                     window.location = "/";
                 });
-
-                // console.log(this.props);
-                // window.location = "blogs";
-                // console.log(this.props);
             })
             .catch((err) => console.log(err));
-
-        // this.setState({
-        //     username: "",
-        //     password: "",
-        // });
+    }
+    addUser(e) {
+        e.preventDefault();
+        const newUser = {
+            username: this.state.username,
+            password: this.state.password,
+            email: this.state.email,
+        };
+        axios
+            .post("/users/", newUser)
+            .then(({ data }) => {
+                console.log(data);
+                this.props.updateUser(data.user).then(() => {
+                    window.location = "/";
+                });
+            })
+            .catch((err) => console.log(err));
+        this.toggleModal();
     }
     componentDidMount() {
         if (this.props.user) window.location = "/";
     }
     render() {
         return (
-            <div id='form' className='m-5 p-3'>
-                <h3>Login</h3>
-                <Form onSubmit={this.onSubmit}>
-                    <div className='form-group'>
-                        <Label>Username : </Label>
-                        <input
-                            type='text'
-                            required
-                            className='form-control'
-                            value={this.state.username}
-                            onChange={this.onChangeUsername}
-                        />
-                    </div>
-                    <div className='form-group'>
-                        <Label>Password : </Label>
-                        <input
-                            type='password'
-                            required
-                            className='form-control'
-                            value={this.state.password}
-                            onChange={this.onChangePassword}
-                        />
-                    </div>
-                    <div className='form-group'>
-                        <input
-                            type='submit'
-                            value='Create User'
-                            className='btn btn-primary'
-                        />
-                    </div>
-                </Form>
+            <div>
+                <div id='form' className='p-4 my-5'>
+                    <h1 style={{ fontFamily: "Kaushan Script" }}>Login</h1>
+                    <Form onSubmit={this.onSubmit}>
+                        <div className='form-group'>
+                            <Label>Username : </Label>
+                            <input
+                                type='text'
+                                required
+                                className='form-control'
+                                value={this.state.username}
+                                onChange={this.onChangeUsername}
+                            />
+                        </div>
+                        <div className='form-group'>
+                            <Label>Password : </Label>
+                            <input
+                                type='password'
+                                required
+                                className='form-control'
+                                value={this.state.password}
+                                onChange={this.onChangePassword}
+                            />
+                        </div>
+                        <div className='form-group'>
+                            New to{" "}
+                            <span
+                                style={{
+                                    fontFamily: "Monoton",
+                                }}>
+                                BlogApp ?
+                            </span>{" "}
+                            <Button
+                                className='btn btn-sm'
+                                color='success'
+                                onClick={this.toggleModal}>
+                                Sign Up
+                            </Button>
+                        </div>
+                        <div className='form-group'>
+                            <input
+                                type='submit'
+                                value='Create User'
+                                className='btn btn-primary'
+                            />
+                        </div>
+                    </Form>
+                </div>
+                <Modal
+                    isOpen={this.state.isModalOpen}
+                    fade={false}
+                    toggle={this.toggleModal}>
+                    <ModalHeader toggle={this.toggleModal}>
+                        Add a blog
+                    </ModalHeader>
+                    <Form onSubmit={this.addUser}>
+                        <ModalBody>
+                            <FormGroup>
+                                <Label htmlFor='username'>Username</Label>
+                                <Input
+                                    type='text'
+                                    id='username'
+                                    onChange={this.onChangeUsername}
+                                    name='username'></Input>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label htmlFor='email'>Email</Label>
+                                <Input
+                                    type='text'
+                                    id='email'
+                                    onChange={this.onChangeEmail}
+                                    name='email'></Input>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label htmlFor='password'>Password</Label>
+                                <Input
+                                    type='password'
+                                    id='password'
+                                    onChange={this.onChangePassword}
+                                    name='password'></Input>
+                            </FormGroup>
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button
+                                type='submit'
+                                value='submit'
+                                color='primary'>
+                                Add BLOG
+                            </Button>
+                        </ModalFooter>
+                    </Form>
+                </Modal>
             </div>
         );
     }

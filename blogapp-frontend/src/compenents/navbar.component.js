@@ -83,7 +83,10 @@ export default class NavbarComponent extends Component {
         return (
             <Navbar color='dark' dark expand='lg'>
                 <NavbarBrand>
-                    <Link to='/' className='navbar-brand'>
+                    <Link
+                        to='/'
+                        className='navbar-brand'
+                        style={{ fontFamily: "Monoton", fontWeight: "100" }}>
                         BlogApp
                     </Link>
                 </NavbarBrand>

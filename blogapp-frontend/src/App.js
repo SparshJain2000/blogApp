@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter, Route, Redirect } from "react-router-dom";
+import { BrowserRouter, Route } from "react-router-dom";
 import NavbarComponent from "./compenents/navbar.component";
 import Blog from "./compenents/blog.component";
 import BlogEdit from "./compenents/blogEdit.component";

@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import {
@@ -57,7 +57,7 @@ export default class NavbarComponent extends Component {
                 });
             })
             .catch((err) => console.log(err));
-        window.location = "/";
+        window.location = "/login";
     }
 
     addPost(event) {

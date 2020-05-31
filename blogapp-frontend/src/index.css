@@ -29,7 +29,7 @@ code {
 }
 
 #cards:hover {
-    box-shadow: 12px 12px 6px rgb(29, 29, 29);
+    box-shadow: 8px 8px 8px rgb(165, 252, 255);
     transform: scale(1.11);
     transition: .4s ease-in-out;
     /* 5ecfc9a2675b492ac0c86960 5ecfc9b5675b492ac0c86961 */
@@ -52,15 +52,12 @@ code {
 }
 
 @media only screen and (max-width: 768px) {
-    #blog {
-        width: 85vw;
-        margin: auto;
-    }
+    #blog {}
 }
 
 @media only screen and (min-width:768px) {
     #blog {
-        width: 60vw;
+        width: 70vw;
         margin: auto
     }
 }

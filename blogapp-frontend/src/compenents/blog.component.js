@@ -95,12 +95,13 @@ export default class blog extends Component {
         axios
             .put(`/blogs/${this.props.match.params.id}`, updatedBlog)
             .then(({ data: { blog } }) => {
-                this.setState({
-                    title: blog.title,
-                    image: blog.image,
-                    body: blog.body,
-                    date: blog.date,
-                });
+                // this.setState({
+                //     title: blog.title,
+                //     image: blog.image,
+                //     body: blog.body,
+                //     date: blog.date,
+                // });
+                console.log(blog);
             })
             .catch((err) => console.log(err));
 
@@ -117,8 +118,8 @@ export default class blog extends Component {
     }
     render() {
         return (
-            <div className='p-3'>
-                {this.state.title == "" ? (
+            <div className='p-5'>
+                {this.state.title === "" ? (
                     <ReactLoading
                         type={"spin"}
                         color={"orange"}
@@ -127,7 +128,7 @@ export default class blog extends Component {
                         className='loading'
                     />
                 ) : (
-                    <Card id='blog' className='mx-auto p-3 col-12 p-1 '>
+                    <Card id='blog' className='p-3 col-12 '>
                         <CardImg
                             src={this.state.image}
                             alt='Card image cap'

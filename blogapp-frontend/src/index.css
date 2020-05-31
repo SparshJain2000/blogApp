@@ -52,7 +52,10 @@ code {
 }
 
 @media only screen and (max-width: 768px) {
-    #blog {}
+    #form {
+        margin-left: 10vw;
+        margin-right: 10vw;
+    }
 }
 
 @media only screen and (min-width:768px) {
@@ -60,11 +63,15 @@ code {
         width: 70vw;
         margin: auto
     }
+    #form {
+        margin-left: 20vw;
+        margin-right: 20vw;
+    }
 }
 
 #form {
-    margin-left: 20vw;
-    margin-right: 20vw;
+    /* margin-left: 20vw;
+    margin-right: 20vw; */
     background-color: rgba(255, 255, 255, .2);
     border-radius: .8rem;
     color: white
@@ -77,4 +84,18 @@ code {
     background-attachment: fixed;
     background-repeat: no-repeat;
     scroll-behavior: smooth;
+}
+
+.card-img-overlay {
+    opacity: 0;
+    transition: .5s ease-in-out;
+    text-align: center;
+}
+
+.card-img-overlay:hover {
+    opacity: 1;
+    background-color: rgba(0, 0, 0, .8);
+    transition: .5s ease-in-out;
+    color: white;
+    padding-top: 45%;
 }

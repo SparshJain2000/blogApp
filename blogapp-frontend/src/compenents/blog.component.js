@@ -20,7 +20,7 @@ import {
 } from "reactstrap";
 import ReactLoading from "react-loading";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendar } from "@fortawesome/free-solid-svg-icons";
+import { faCalendar, faHeart } from "@fortawesome/free-solid-svg-icons";
 export default class blog extends Component {
     constructor(props) {
         super(props);
@@ -36,6 +36,7 @@ export default class blog extends Component {
             body: "",
             author: "",
             data: "",
+            likes: [],
             isModalOpen: false,
         };
     }
@@ -48,6 +49,7 @@ export default class blog extends Component {
                 body: this.props.location.blog.blog.body,
                 author: this.props.location.blog.blog.author,
                 date: this.props.location.blog.blog.date,
+                likes: this.props.location.blog.blog.likes,
             });
         }
         if (!this.props.location.blog) {
@@ -60,6 +62,7 @@ export default class blog extends Component {
                         body: data.body,
                         author: data.author,
                         date: data.date,
+                        likes: data.likes,
                     });
                 })
                 .catch((err) => console.log("err"));
@@ -144,7 +147,7 @@ export default class blog extends Component {
                                     </span>
                                 </h5>
                             </CardTitle>
-                            {this.state.date !== "" ? (
+                            {this.state.date !== "" && (
                                 <CardSubtitle className='text-dark'>
                                     <FontAwesomeIcon
                                         icon={faCalendar}
@@ -157,9 +160,14 @@ export default class blog extends Component {
                                         hour: "numeric",
                                         minute: "numeric",
                                     }).format(Date.parse(this.state.date))}
+                                    <span className='float-right'>
+                                        <FontAwesomeIcon
+                                            className='text-danger'
+                                            icon={faHeart}
+                                        />{" "}
+                                        {this.state.likes.length}
+                                    </span>
                                 </CardSubtitle>
-                            ) : (
-                                ""
                             )}
                             <CardText>
                                 <br />
@@ -167,28 +175,26 @@ export default class blog extends Component {
                             </CardText>
                         </CardBody>
                         <CardFooter>
-                            {this.props.user === null ? (
-                                ""
-                            ) : this.props.user._id === this.state.author.id ? (
-                                <div
-                                    style={{ display: "flex" }}
-                                    className='p-1'>
-                                    <Button
-                                        className='btn btn-danger mr-1'
-                                        style={{ width: "48%" }}
-                                        onClick={this.deleteBlog}>
-                                        Delete
-                                    </Button>{" "}
-                                    <Button
-                                        className='btn btn-warning ml-1'
-                                        style={{ width: "48%" }}
-                                        onClick={this.toggleModal}>
-                                        Edit
-                                    </Button>
-                                </div>
-                            ) : (
-                                ""
-                            )}
+                            {this.props.user !== null &&
+                                this.props.user._id ===
+                                    this.state.author.id && (
+                                    <div
+                                        style={{ display: "flex" }}
+                                        className='p-1'>
+                                        <Button
+                                            className='btn btn-danger mr-1'
+                                            style={{ width: "48%" }}
+                                            onClick={this.deleteBlog}>
+                                            Delete
+                                        </Button>{" "}
+                                        <Button
+                                            className='btn btn-warning ml-1'
+                                            style={{ width: "48%" }}
+                                            onClick={this.toggleModal}>
+                                            Edit
+                                        </Button>
+                                    </div>
+                                )}
                         </CardFooter>
                     </Card>
                 )}

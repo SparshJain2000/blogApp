@@ -15,5 +15,14 @@ module.exports = mongoose.model(
             },
             username: String,
         },
+        likes: [
+            {
+                id: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: "User",
+                },
+                username: String,
+            },
+        ],
     }).plugin(passportLocalMongoose)
 );

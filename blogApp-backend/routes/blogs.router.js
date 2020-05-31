@@ -16,6 +16,7 @@ router.post("/", middleware.isLoggedIn, (req, res) => {
         image: req.body.image,
         body: req.body.body,
         date: new Date(),
+        likes: [],
     });
     Blog.create(blog)
         .then((blog) => {
@@ -42,6 +43,20 @@ router.put("/:id", middleware.checkBlogOwnership, (req, res) => {
         blog.image = req.body.image;
         blog.body = req.body.body;
         blog.date = new Date();
+        blog.likes = blog.likes ? blog.likes : [];
+        blog.save()
+            .then((updatedBlog) => res.json(updatedBlog))
+            .catch((err) => res.status(400).json(err));
+    });
+});
+//===========================================================================
+//like a blog
+router.put("/:id/like", middleware.isLoggedIn, (req, res) => {
+    Blog.findById(req.params.id).then((blog) => {
+        blog.likes = [
+            ...blog.likes,
+            { username: req.user.username, id: req.user._id },
+        ];
         blog.save()
             .then((updatedBlog) => res.json(updatedBlog))
             .catch((err) => res.status(400).json(err));

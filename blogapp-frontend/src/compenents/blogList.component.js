@@ -6,6 +6,7 @@ import {
     CardBody,
     CardSubtitle,
     CardTitle,
+    CardImgOverlay,
     CardText,
     Button,
     CardFooter,
@@ -28,14 +29,47 @@ class Blog extends Component {
         super(props);
         this.state = {
             liked: false,
+            likes: this.props.blog.likes.length,
         };
         this.toggleLike = this.toggleLike.bind(this);
     }
-    toggleLike(e) {
-        this.setState({
-            liked: !this.state.liked,
-        });
+    toggleLike() {
+        if (!this.state.liked) {
+            axios
+                .put(`/blogs/${this.props.blog._id}/like`)
+                .then((res) => {
+                    console.log(res.data);
+                    this.setState({
+                        liked: true,
+                        likes: res.data.likes.length,
+                    });
+                })
+                .catch((err) => console.log(err));
+        }
     }
+    componentDidMount() {
+        // this.props.blog.likes.forEach((user) => {
+        //     // console.log(user);
+        //     if (user._id === this.props.user._id) {
+        //         this.setState({
+        //             liked: true,
+        //         });
+        //         // console.log(true);
+        //     }
+        // });
+        // console.log(this.props.blog.likes);
+        // console.log("user : ");
+        for (let user of this.props.blog.likes) {
+            if (user.id === this.props.user._id) {
+                this.setState({
+                    liked: true,
+                });
+                break;
+            }
+        }
+        // console.log(this.props.user._id);
+    }
+
     render() {
         const blog = this.props.blog;
 
@@ -44,26 +78,41 @@ class Blog extends Component {
                 className='col-12 col-md-6 col-lg-4 col-xl-3 mb-5'
                 key={blog._id}>
                 <Card className='p-1 m-1' id='cards'>
-                    <CardImg
-                        top
-                        width='100%'
-                        src={blog.image}
-                        alt='Card image cap'
-                        className='img-fluid'
-                    />
+                    <Card>
+                        <CardImg
+                            top
+                            width='100%'
+                            src={blog.image}
+                            alt='Card image cap'
+                            className='img-fluid'
+                        />
+                        <CardImgOverlay>
+                            <h3>
+                                <FontAwesomeIcon
+                                    className='text-danger'
+                                    icon={faHeart}
+                                />{" "}
+                                {this.state.likes}
+                            </h3>
+                        </CardImgOverlay>
+                    </Card>
+
                     <CardBody>
                         <CardTitle className='text-primary'>
                             <h5>
                                 {blog.title}
                                 {this.state.liked ? (
                                     <span
-                                        className='float-right text-danger'
+                                        className='float-right '
                                         style={{ cursor: "pointer" }}
                                         onClick={this.toggleLike}>
                                         <FontAwesomeIcon
                                             icon={faHeart}
-                                            className=''
-                                        />
+                                            className='text-danger'
+                                        />{" "}
+                                        {/* <span className='text-secondary small'>
+                                            {this.state.likes}
+                                        </span> */}
                                     </span>
                                 ) : (
                                     <span
@@ -76,7 +125,8 @@ class Blog extends Component {
                                             }}
                                             icon={faHeart}
                                             className=''
-                                        />
+                                        />{" "}
+                                        {/* {this.state.likes} */}
                                     </span>
                                 )}
                             </h5>
@@ -101,7 +151,7 @@ class Blog extends Component {
                             </Button>
                         </Link>
                     </CardBody>
-                    {blog.date ? (
+                    {blog.date && (
                         <CardFooter className='small '>
                             <FontAwesomeIcon
                                 icon={faCalendar}
@@ -116,8 +166,6 @@ class Blog extends Component {
                             }).format(Date.parse(blog.date))}
                             {/* {blog.date} */}
                         </CardFooter>
-                    ) : (
-                        ""
                     )}
                 </Card>
             </div>

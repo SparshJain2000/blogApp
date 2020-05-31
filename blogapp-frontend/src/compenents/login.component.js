@@ -9,6 +9,7 @@ import {
     ModalHeader,
     ModalFooter,
     ModalBody,
+    Alert,
 } from "reactstrap";
 import axios from "axios";
 export default class login extends Component {
@@ -24,6 +25,7 @@ export default class login extends Component {
             username: "",
             password: "",
             email: "",
+            alert: false,
             isModalOpen: false,
         };
     }
@@ -78,8 +80,17 @@ export default class login extends Component {
                 this.props.updateUser(data.user).then(() => {
                     window.location = "/";
                 });
+                this.setState({
+                    alert: false,
+                });
             })
-            .catch((err) => console.log(err));
+            .catch((err) => {
+                this.setState({
+                    alert: true,
+                });
+                console.log(err);
+                console.log(this.state.alert);
+            });
         this.toggleModal();
     }
     componentDidMount() {
@@ -88,6 +99,14 @@ export default class login extends Component {
     render() {
         return (
             <div>
+                {this.state.alert ? (
+                    <div className='p-4 m-1'>
+                        <Alert>Invalid Credentials</Alert>
+                    </div>
+                ) : (
+                    ""
+                )}
+
                 <div id='form' className='p-4 my-5'>
                     <h1 style={{ fontFamily: "Kaushan Script" }}>Login</h1>
                     <Form onSubmit={this.onSubmit}>

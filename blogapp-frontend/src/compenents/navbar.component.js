@@ -8,15 +8,6 @@ import {
     Collapse,
     Nav,
     NavbarToggler,
-    Modal,
-    ModalBody,
-    ModalHeader,
-    ModalFooter,
-    Button,
-    Form,
-    FormGroup,
-    Label,
-    Input,
 } from "reactstrap";
 import { setGlobalCssModule } from "reactstrap/lib/utils";
 export default class NavbarComponent extends Component {
@@ -82,14 +73,12 @@ export default class NavbarComponent extends Component {
     render() {
         return (
             <Navbar color='dark' dark expand='lg'>
-                <NavbarBrand>
-                    <Link
-                        to='/'
-                        className='navbar-brand'
-                        style={{ fontFamily: "Monoton", fontWeight: "100" }}>
-                        BlogApp
-                    </Link>
-                </NavbarBrand>
+                <Link
+                    to='/'
+                    className='navbar-brand'
+                    style={{ fontFamily: "Monoton", fontWeight: "100" }}>
+                    BlogApp
+                </Link>
                 <NavbarToggler onClick={this.toggle} />{" "}
                 <Collapse isOpen={this.state.isOpen} navbar>
                     {this.state.user ? (

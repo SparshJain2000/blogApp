@@ -64,7 +64,12 @@ export default class login extends Component {
                     window.location = "/";
                 });
             })
-            .catch((err) => console.log(err));
+            .catch((err) => {
+                console.log(err);
+                this.setState({
+                    alert: true,
+                });
+            });
     }
     addUser(e) {
         e.preventDefault();
@@ -99,15 +104,13 @@ export default class login extends Component {
     render() {
         return (
             <div>
-                {this.state.alert ? (
-                    <div className='p-4 m-1'>
-                        <Alert>Invalid Credentials</Alert>
+                {this.state.alert && (
+                    <div className='p-3 mt-1'>
+                        <Alert fade='true'>Invalid Credentials</Alert>
                     </div>
-                ) : (
-                    ""
                 )}
 
-                <div id='form' className='p-4 my-5'>
+                <div id='form' className='p-4 my-4'>
                     <h1 style={{ fontFamily: "Kaushan Script" }}>Login</h1>
                     <Form onSubmit={this.onSubmit}>
                         <div className='form-group'>
@@ -148,7 +151,7 @@ export default class login extends Component {
                         <div className='form-group'>
                             <input
                                 type='submit'
-                                value='Create User'
+                                value='Login'
                                 className='btn btn-primary'
                             />
                         </div>
@@ -193,7 +196,7 @@ export default class login extends Component {
                                 type='submit'
                                 value='submit'
                                 color='primary'>
-                                Add BLOG
+                                Sign Up
                             </Button>
                         </ModalFooter>
                     </Form>

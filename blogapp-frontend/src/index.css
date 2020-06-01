@@ -25,14 +25,13 @@ code {
     background: rgba(255, 255, 255, .65);
     box-shadow: 6px 6px 4px rgb(0, 0, 0);
     transition: .4s ease-in-out;
-    /* 5ecfc9a2675b492ac0c86960 5ecfc9b5675b492ac0c86961 */
 }
 
 #cards:hover {
-    box-shadow: 8px 8px 8px rgb(165, 252, 255);
+    box-shadow: 8px 8px 14px 2px rgb(165, 252, 255);
     transform: scale(1.11);
+    background-color: rgba(255, 255, 255, .85);
     transition: .4s ease-in-out;
-    /* 5ecfc9a2675b492ac0c86960 5ecfc9b5675b492ac0c86961 */
 }
 
 .modal-backdrop {
@@ -88,14 +87,15 @@ code {
 
 .card-img-overlay {
     opacity: 0;
-    transition: .5s ease-in-out;
+    transition: .3s ease-in-out;
     text-align: center;
+    margin: 0;
 }
 
 .card-img-overlay:hover {
     opacity: 1;
     background-color: rgba(0, 0, 0, .8);
-    transition: .5s ease-in-out;
+    transition: .4s ease-in-out;
     color: white;
     padding-top: 45%;
 }

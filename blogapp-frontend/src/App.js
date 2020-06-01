@@ -42,8 +42,9 @@ export default class App extends Component {
                 <Route
                     path='/'
                     exact
-                    component={() => (
+                    render={(props) => (
                         <BlogList
+                            {...props}
                             user={this.state.user}
                             updateUser={this.updateUser}
                         />

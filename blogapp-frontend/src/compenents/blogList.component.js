@@ -21,7 +21,7 @@ import {
 } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendar, faHeart } from "@fortawesome/free-solid-svg-icons";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import ReactLoading from "react-loading";
 // const Loading = require("react-loading-animation");
 class Blog extends Component {
@@ -34,40 +34,34 @@ class Blog extends Component {
         this.toggleLike = this.toggleLike.bind(this);
     }
     toggleLike() {
-        if (!this.state.liked) {
-            axios
-                .put(`/blogs/${this.props.blog._id}/like`)
-                .then((res) => {
-                    console.log(res.data);
-                    this.setState({
-                        liked: true,
-                        likes: res.data.likes.length,
-                    });
-                })
-                .catch((err) => console.log(err));
-        }
+        !this.state.liked
+            ? axios
+                  .put(`/blogs/${this.props.blog._id}/like`)
+                  .then((res) => {
+                      this.setState({
+                          liked: true,
+                          likes: res.data.likes.length,
+                      });
+                  })
+                  .catch((err) => console.log(err))
+            : axios
+                  .put(`/blogs/${this.props.blog._id}/unlike`)
+                  .then((res) => {
+                      this.setState({
+                          liked: false,
+                          likes: res.data.likes.length,
+                      });
+                  })
+                  .catch((err) => console.log(err));
     }
     componentDidMount() {
-        // this.props.blog.likes.forEach((user) => {
-        //     // console.log(user);
-        //     if (user._id === this.props.user._id) {
-        //         this.setState({
-        //             liked: true,
-        //         });
-        //         // console.log(true);
-        //     }
-        // });
-        // console.log(this.props.blog.likes);
-        // console.log("user : ");
-        for (let user of this.props.blog.likes) {
+        for (let user of this.props.blog.likes)
             if (user.id === this.props.user._id) {
                 this.setState({
                     liked: true,
                 });
                 break;
             }
-        }
-        // console.log(this.props.user._id);
     }
 
     render() {
@@ -109,10 +103,7 @@ class Blog extends Component {
                                         <FontAwesomeIcon
                                             icon={faHeart}
                                             className='text-danger'
-                                        />{" "}
-                                        {/* <span className='text-secondary small'>
-                                            {this.state.likes}
-                                        </span> */}
+                                        />
                                     </span>
                                 ) : (
                                     <span
@@ -125,8 +116,7 @@ class Blog extends Component {
                                             }}
                                             icon={faHeart}
                                             className=''
-                                        />{" "}
-                                        {/* {this.state.likes} */}
+                                        />
                                     </span>
                                 )}
                             </h5>
@@ -176,12 +166,9 @@ class Blog extends Component {
 
 // };
 const Blogs = ({ blogs, user }) => {
-    console.log(blogs);
-    console.log(user);
     return blogs.map((blog) => {
         return <Blog key={blog._id} blog={blog} user={user} />;
     });
-    // return blogList;
 };
 export default class blogList extends Component {
     constructor(props) {
@@ -202,32 +189,36 @@ export default class blogList extends Component {
     componentDidMount() {
         axios
             .get("/blogs")
-            .then((res) => this.setState({ blogs: res.data.blogs }))
+            .then(({ data: { blogs } }) => {
+                blogs.sort((a, b) =>
+                    a.likes.length < b.likes.length
+                        ? 1
+                        : b.likes.length < a.likes.length
+                        ? -1
+                        : 0
+                );
+                this.setState({ blogs: blogs });
+            })
             .catch((err) => {
                 console.log(err);
-                // if (err.err == "Not Logged in")
                 window.location = "/login";
             });
-        console.log(this.props.user);
     }
 
     ontitleChange(e) {
         this.setState({
             title: e.target.value,
         });
-        console.log(e);
     }
     onbodyChange(e) {
         this.setState({
             body: e.target.value,
         });
-        console.log(e);
     }
     onimgChange(e) {
         this.setState({
             image: e.target.value,
         });
-        console.log(e);
     }
     onSubmit(e) {
         e.preventDefault();
@@ -236,11 +227,9 @@ export default class blogList extends Component {
             body: this.state.body,
             image: this.state.image,
         };
-        console.log(blog);
         axios
             .post("/blogs", blog)
             .then(({ data: { blog } }) => {
-                console.log(blog);
                 this.setState({
                     blogs: [blog, ...this.state.blogs],
                 });

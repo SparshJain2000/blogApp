@@ -63,6 +63,18 @@ router.put("/:id/like", middleware.isLoggedIn, (req, res) => {
     });
 });
 //===========================================================================
+//unlike a blog
+router.put("/:id/unlike", middleware.isLoggedIn, (req, res) => {
+    Blog.findById(req.params.id).then((blog) => {
+        blog.likes = blog.likes.filter(
+            (user) => user.username != req.user.username
+        );
+        blog.save()
+            .then((updatedBlog) => res.json(updatedBlog))
+            .catch((err) => res.status(400).json(err));
+    });
+});
+//===========================================================================
 //delete a blog
 router.delete("/:id", middleware.isLoggedIn, (req, res) => {
     Blog.findByIdAndDelete(req.params.id)

@@ -9,6 +9,19 @@ router.get("/", middleware.isLoggedIn, (req, res) => {
         .catch((err) => res.json(err));
 });
 //===========================================================================
+//get blogs by user
+router.get("/my", middleware.isLoggedIn, (req, res) => {
+    Blog.find()
+        .then((blogs) => {
+            // let userBlogs = [];
+            const userBlogs = blogs.filter(
+                (blog) => blog.author.username === req.user.username
+            );
+            res.json({ blogs: userBlogs, user: req.user });
+        })
+        .catch((err) => res.json(err));
+});
+//===========================================================================
 //post a blog
 router.post("/", middleware.isLoggedIn, (req, res) => {
     const blog = new Blog({

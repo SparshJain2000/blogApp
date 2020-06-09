@@ -8,7 +8,6 @@ body {
 }
 
 html {
-    /* background-color: black; */
     width: 100;
     margin: 0;
 }
@@ -69,15 +68,12 @@ code {
 }
 
 #form {
-    /* margin-left: 20vw;
-    margin-right: 20vw; */
     background-color: rgba(255, 255, 255, .2);
     border-radius: .8rem;
     color: white
 }
 
 .background {
-    /* background-color: red; */
     background-image: linear-gradient(rgba(0, 0, 0, .7), rgba(0, 0, 0, .7)), url('/bg.jpg');
     background-size: cover;
     background-attachment: fixed;
@@ -98,4 +94,12 @@ code {
     transition: .4s ease-in-out;
     color: white;
     padding-top: 45%;
+}
+
+#root .list-group-item {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.likes {
+    transition: 0.3s ease-in-out;
 }

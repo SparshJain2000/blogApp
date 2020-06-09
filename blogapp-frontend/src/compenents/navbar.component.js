@@ -2,26 +2,39 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import {
-    NavbarBrand,
     Navbar,
     NavItem,
     Collapse,
     Nav,
     NavbarToggler,
+    ButtonDropdown,
+    Button,
+    DropdownItem,
+    DropdownToggle,
+    DropdownMenu,
 } from "reactstrap";
-import { setGlobalCssModule } from "reactstrap/lib/utils";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 export default class NavbarComponent extends Component {
     constructor(props) {
         super(props);
         this.toggle = this.toggle.bind(this);
         this.logout = this.logout.bind(this);
-        this.addPost = this.addPost.bind(this);
+        this.dropdownToggle = this.dropdownToggle.bind(this);
+
+        // this.addPost = this.addPost.bind(this);
         this.state = {
             isOpen: false,
             navCollapsed: true,
             showNavbar: false,
             user: null,
+            isDropdownOpen: false,
         };
+    }
+    dropdownToggle() {
+        this.setState({
+            isDropdownOpen: !this.state.isDropdownOpen,
+        });
     }
     toggle() {
         this.setState({
@@ -51,25 +64,6 @@ export default class NavbarComponent extends Component {
         window.location = "/login";
     }
 
-    addPost(event) {
-        // const blog = {
-        //     title: this.title.value,
-        //     image: this.imageURL.value,
-        //     body: this.body.value,
-        // };
-        // console.log(blog);
-        // alert(blog.title);
-        // // axios.post("/blogs");
-        // axios
-        //     .post("/blogs", blog)
-        //     .then((blog) => {
-        //         console.log(blog);
-        //         window.location = "/blogs";
-        //     })
-        //     .catch((err) => console.log(err));
-        // event.preventDefault();
-        // this.toggleModal();
-    }
     render() {
         return (
             <Navbar color='dark' dark expand='lg'>
@@ -82,13 +76,36 @@ export default class NavbarComponent extends Component {
                 <NavbarToggler onClick={this.toggle} />{" "}
                 <Collapse isOpen={this.state.isOpen} navbar>
                     {this.state.user ? (
-                        <Nav className='ml-auto' navbar>
+                        <Nav className='ml-auto mr-2' navbar>
                             <NavItem className='navbar-item'>
-                                <a
-                                    className=' btn btn-primary text-white'
-                                    onClick={this.logout}>
-                                    {this.state.user.username}
-                                </a>
+                                <ButtonDropdown
+                                    isOpen={this.state.isDropdownOpen}
+                                    toggle={this.dropdownToggle}>
+                                    <Button id='caret' color='primary'>
+                                        <FontAwesomeIcon
+                                            icon={faUser}
+                                            className='mr-2'
+                                        />
+                                        {this.state.user.username}
+                                    </Button>
+                                    <DropdownToggle caret color='primary' />
+                                    <DropdownMenu right>
+                                        <Link
+                                            to='/myblogs/'
+                                            className='dropdown-item'>
+                                            My Blogs
+                                        </Link>
+
+                                        <DropdownItem divider />
+                                        <DropdownItem onClick={this.logout}>
+                                            logout
+                                            <FontAwesomeIcon
+                                                icon={faSignOutAlt}
+                                                className='ml-2'
+                                            />
+                                        </DropdownItem>
+                                    </DropdownMenu>
+                                </ButtonDropdown>
                             </NavItem>
                         </Nav>
                     ) : (

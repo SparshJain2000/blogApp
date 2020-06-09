@@ -23,7 +23,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendar, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import ReactLoading from "react-loading";
-// const Loading = require("react-loading-animation");
 class Blog extends Component {
     constructor(props) {
         super(props);
@@ -162,9 +161,6 @@ class Blog extends Component {
         );
     }
 }
-// const Blog = ({ blog, user, liked }) => {
-
-// };
 const Blogs = ({ blogs, user }) => {
     return blogs.map((blog) => {
         return <Blog key={blog._id} blog={blog} user={user} />;

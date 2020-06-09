@@ -6,6 +6,7 @@ import NavbarComponent from "./compenents/navbar.component";
 import Blog from "./compenents/blog.component";
 import BlogEdit from "./compenents/blogEdit.component";
 import BlogList from "./compenents/blogList.component";
+import Myblogs from "./compenents/myBlog.component";
 import Login from "./compenents/login.component";
 import axios from "axios";
 export default class App extends Component {
@@ -66,6 +67,16 @@ export default class App extends Component {
                     exact
                     component={() => (
                         <BlogEdit
+                            user={this.state.user}
+                            updateUser={this.updateUser}
+                        />
+                    )}
+                />
+                <Route
+                    path='/myblogs/'
+                    exact
+                    component={() => (
+                        <Myblogs
                             user={this.state.user}
                             updateUser={this.updateUser}
                         />

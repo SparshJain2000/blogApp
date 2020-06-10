@@ -62,24 +62,19 @@ class Blog extends Component {
                                     <span
                                         className='float-right '
                                         style={{ cursor: "pointer" }}
-                                        onClick={this.toggleLike}>
-                                        <FontAwesomeIcon
-                                            icon={faHeart}
-                                            className='text-danger'
-                                        />
-                                    </span>
+                                        onClick={this.toggleLike}></span>
                                 ) : (
                                     <span
                                         className='float-right '
                                         onClick={this.toggleLike}>
-                                        <FontAwesomeIcon
+                                        {/* <FontAwesomeIcon
                                             style={{
                                                 color: "rgba(0,0,0,0.2)",
                                                 cursor: "pointer",
                                             }}
                                             icon={faHeart}
                                             className=''
-                                        />
+                                        /> */}
                                     </span>
                                 )}
                             </h5>

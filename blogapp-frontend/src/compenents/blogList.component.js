@@ -253,7 +253,7 @@ export default class blogList extends Component {
                     Add a BLOG
                 </Button>
                 <div
-                    className='row pt-4'
+                    className='row pt-4 justify-content-center'
                     style={{
                         marginLeft: "5vw",
                         width: "90vw",

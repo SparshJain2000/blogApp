@@ -101,7 +101,7 @@ export default class NavbarComponent extends Component {
                                             logout
                                             <FontAwesomeIcon
                                                 icon={faSignOutAlt}
-                                                className='ml-2'
+                                                className='ml-3'
                                             />
                                         </DropdownItem>
                                     </DropdownMenu>

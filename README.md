@@ -24,9 +24,9 @@
   MONGO_URI = 'Your mongo url'
   SECRET = 'secret for Passport'
   ```
-  #### Start the server (run app.js file)
+  #### Start the server (run server.js file)
   ```bash
-  node app.js
+  node server.js
   ```
   ### `Go to /blogApp-frontend/ folder`
   In the project directory, you can run:

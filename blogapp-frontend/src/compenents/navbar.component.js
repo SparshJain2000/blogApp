@@ -66,7 +66,6 @@ export default class NavbarComponent extends Component {
 
 	render () {
 		return (
-			
 			<Navbar color='dark' dark expand='lg'>
 				<Link to='/' className='navbar-brand' style={{ fontFamily: 'Monoton', fontWeight: '100' }}>
 					BlogApp
@@ -74,14 +73,14 @@ export default class NavbarComponent extends Component {
 				<NavbarToggler onClick={this.toggle} />{' '}
 				<Collapse isOpen={this.state.isOpen} navbar>
 					{this.state.user ? (
-						<Nav className='ml-auto mr-2' navbar>
-							<NavItem className='navbar-item'>
+						<Nav className='ml-auto  mr-2' navbar>
+							<NavItem className='navbar-item ml-auto mr-auto'>
 								<ButtonDropdown isOpen={this.state.isDropdownOpen} toggle={this.dropdownToggle}>
 									<Button id='caret' color='primary'>
 										<FontAwesomeIcon icon={faUser} className='mr-2' />
 										{this.state.user.username}
 									</Button>
-									<DropdownToggle caret color='primary' />
+									<DropdownToggle caret color='secondary' />
 									<DropdownMenu right>
 										<Link to='/myblogs/' className='dropdown-item'>
 											My Blogs
@@ -98,7 +97,7 @@ export default class NavbarComponent extends Component {
 						</Nav>
 					) : (
 						<Nav className='ml-auto' navbar>
-							<NavItem className='navbar-item'>
+							<NavItem className='navbar-item ml-auto mr-auto'>
 								<Link className='nav-link' to='/login'>
 									Login
 								</Link>

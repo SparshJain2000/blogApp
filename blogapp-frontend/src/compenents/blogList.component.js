@@ -153,6 +153,7 @@ const Blogs = ({ blogs, user, setUser }) => {
 export default class blogList extends Component {
 	constructor (props) {
 		super(props);
+		this.textInput = React.createRef();
 		this.state = {
 			blogs       : null,
 			isModalOpen : false,
@@ -166,6 +167,7 @@ export default class blogList extends Component {
 		this.ontitleChange = this.ontitleChange.bind(this);
 		this.onimgChange = this.onimgChange.bind(this);
 		this.onSubmit = this.onSubmit.bind(this);
+		this.search = this.search.bind(this);
 	}
 	componentDidMount () {
 		axios
@@ -228,9 +230,52 @@ export default class blogList extends Component {
 			isModalOpen : !this.state.isModalOpen
 		});
 	}
+	search () {
+		console.log(this.textInput.current.value);
+		axios
+			.get('/api/blogs')
+			.then(({ data: { blogs } }) => {
+				let newBlogs = blogs;
+				if (this.textInput.current.value !== '')
+					newBlogs = blogs.filter(
+						(blog) =>
+							blog.title.includes(this.textInput.current.value.toLowerCase()) ||
+							blog.title.includes(this.textInput.current.value.toUpperCase()) ||
+							blog.title.includes(
+								this.textInput.current.value.charAt(0).toUpperCase() +
+									this.textInput.current.value.slice(1)
+							)
+					);
+
+				this.setState({ blogs: newBlogs });
+			})
+			.catch((err) => {
+				console.log(err);
+				if (err.response.data.err === 'Not Logged in') window.location = '/login';
+				else console.log(err.response.data);
+			});
+	}
 	render () {
 		return (
-			<div className=''>
+			<div className='align-content-center'>
+				<div
+					className='form-inline row justify-content-center'
+					style={{
+						marginLeft : '15vw',
+						marginTop  : '2vh',
+						width      : '70vw'
+					}}>
+					<input
+						className='form-control mr-sm-2 col-8'
+						type='search'
+						placeholder='Search'
+						aria-label='Search'
+						ref={this.textInput}
+					/>
+					<button className='col-3 btn btn-outline-success my-2 my-sm-0' type='submit' onClick={this.search}>
+						Search
+					</button>
+				</div>
 				<Button
 					color='danger'
 					onClick={this.toggleModal}

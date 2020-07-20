@@ -65,52 +65,6 @@ export default class NavbarComponent extends Component {
         window.location = "/login";
     }
 
-<<<<<<< HEAD
-	render () {
-		return (
-			<Navbar color='dark' dark expand='lg'>
-				<Link to='/' className='navbar-brand' style={{ fontFamily: 'Monoton', fontWeight: '100' }}>
-					BlogApp
-				</Link>
-				<NavbarToggler onClick={this.toggle} />{' '}
-				<Collapse isOpen={this.state.isOpen} navbar>
-					{this.state.user ? (
-						<Nav className='ml-auto  mr-2' navbar>
-							<NavItem className='navbar-item ml-auto mr-auto'>
-								<ButtonDropdown isOpen={this.state.isDropdownOpen} toggle={this.dropdownToggle}>
-									<Button id='caret' color='primary'>
-										<FontAwesomeIcon icon={faUser} className='mr-2' />
-										{this.state.user.username}
-									</Button>
-									<DropdownToggle caret color='secondary' />
-									<DropdownMenu right>
-										<Link to='/myblogs/' className='dropdown-item'>
-											My Blogs
-										</Link>
-
-										<DropdownItem divider />
-										<DropdownItem onClick={this.logout}>
-											logout
-											<FontAwesomeIcon icon={faSignOutAlt} className='ml-3' />
-										</DropdownItem>
-									</DropdownMenu>
-								</ButtonDropdown>
-							</NavItem>
-						</Nav>
-					) : (
-						<Nav className='ml-auto' navbar>
-							<NavItem className='navbar-item ml-auto mr-auto'>
-								<Link className='nav-link' to='/login'>
-									Login
-								</Link>
-							</NavItem>
-						</Nav>
-					)}
-				</Collapse>
-			</Navbar>
-		);
-	}
-=======
     render() {
         return (
             <Navbar color='dark' dark expand='lg'>
@@ -173,7 +127,6 @@ export default class NavbarComponent extends Component {
             </Navbar>
         );
     }
->>>>>>> master
 }
 // export default NavbarComponent;
 // Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti voluptates fugit distinctio, deserunt nostrum itaque et nemo quod quae dolorum qui illo obcaecati totam voluptatem in dicta enim iusto excepturi.

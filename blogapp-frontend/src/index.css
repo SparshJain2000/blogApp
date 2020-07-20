@@ -33,6 +33,10 @@ code {
     transition: .4s ease-in-out;
 }
 
+.card-img-top {
+    /* max-height: 300px; */
+}
+
 .modal-backdrop {
     position: fixed;
     top: 0;
@@ -64,6 +68,9 @@ code {
     #form {
         margin-left: 20vw;
         margin-right: 20vw;
+    }
+    .singleBlog {
+        width: '90%'
     }
 }
 

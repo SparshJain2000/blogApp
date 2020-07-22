@@ -1,9 +1,11 @@
-# blogapp
+# blogapp 
 
 [![](https://img.shields.io/static/v1?message=Front-end&label=react&logo=react&color=skyblue&style=for-the-badge)](https://reactjs.org/)
 [![](https://img.shields.io/static/v1?message=Back-end&label=NodeJS&logo=javascript&color=orange&style=for-the-badge)](https://nodejs.org/en/)
 [![](https://img.shields.io/static/v1?message=Database&label=MongoDB&logo=mongodb&color=blue&style=for-the-badge)](https://www.mongodb.com/)
 [![License: MIT](https://img.shields.io/github/license/SparshJain2000/blogApp?style=for-the-badge)](https://opensource.org/licenses/MIT)
+
+![visitors](https://visitor-badge.laobi.icu/badge?page_id=SparshJain2000.blogApp)
 
  MERN stack blogging website .
  

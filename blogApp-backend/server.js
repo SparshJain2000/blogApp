@@ -9,6 +9,9 @@ const express = require("express"),
   userRouter = require("./routes/user.router"),
   bodyParser = require("body-parser");
 require("dotenv").config();
+var session = require('express-session')
+var MemoryStore = require('memorystore')(session)
+ 
 //==========================================================================
 app.use(bodyParser.json());
 app.use(cors());
@@ -22,12 +25,16 @@ app.use(function (req, res, next) {
   );
   next();
 });
-app.use(
-  require("express-session")({
-    secret: process.env.SECRET,
-    resave: false,
-    saveUninitialized: false,
-  }),
+app.use(session(
+  {
+      secret: process.env.SECRET,
+      cookie: { maxAge: 86400000 },
+      store: new MemoryStore({
+        checkPeriod: 86400000 // prune expired entries every 24h
+      }),
+      resave: false,
+      saveUninitialized: false,
+  })
 );
 app.use((req, res, next) => {
   res.locals.currentUser = req.user;

@@ -20,6 +20,7 @@ export default class login extends Component {
         this.onChangeEmail = this.onChangeEmail.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.toggleModal = this.toggleModal.bind(this);
+        this.toggleError = this.toggleError.bind(this);
         this.addUser = this.addUser.bind(this);
         this.state = {
             username: "",
@@ -28,6 +29,7 @@ export default class login extends Component {
             alert: false,
             isModalOpen: false,
             errMessage: "",
+            alertCol: "danger",
         };
     }
     onChangeUsername(e) {
@@ -75,6 +77,7 @@ export default class login extends Component {
                     errMess = "Incorrect Password";
                 this.setState({
                     alert: true,
+                    alertCol: "danger",
                     errMessage: errMess,
                 });
             });
@@ -100,23 +103,33 @@ export default class login extends Component {
             .catch((err) => {
                 this.setState({
                     alert: true,
+                    errMessage: "Something went wrong",
+                    alertCol: "danger",
                 });
                 console.log(err.response);
-                console.log(this.state.alert);
             });
         this.toggleModal();
     }
     componentDidMount() {
         if (this.props.user) window.location = "/";
     }
+    toggleError() {
+        this.setState({
+            alert: !this.state.alert,
+        });
+    }
     render() {
         return (
             <div>
-                {this.state.alert && (
-                    <div className='p-3 mt-1'>
-                        <Alert fade={true}>{this.state.errMessage}</Alert>
-                    </div>
-                )}
+                <div className='p-3 mt-1'>
+                    <Alert
+                        color={this.state.alertCol}
+                        fade={true}
+                        toggle={this.toggleError}
+                        isOpen={this.state.alert}>
+                        {this.state.errMessage}
+                    </Alert>
+                </div>
 
                 <div id='form' className='p-4 my-4'>
                     <h1 style={{ fontFamily: "Kaushan Script" }}>Login</h1>

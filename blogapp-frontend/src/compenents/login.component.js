@@ -101,9 +101,21 @@ export default class login extends Component {
                 });
             })
             .catch((err) => {
+                let errMess = "";
+                errMess = err?.response?.data?.err?.name;
+                if (errMess === undefined) errMess = "Something went wrong";
+                else if (errMess === "UserExistsError")
+                    errMess = "User Already Exists";
+                else if (errMess === "IncorrectPasswordError")
+                    errMess = "Incorrect Password";
                 this.setState({
                     alert: true,
-                    errMessage: "Something went wrong",
+                    alertCol: "danger",
+                    errMessage: errMess,
+                });
+                this.setState({
+                    alert: true,
+                    errMessage: errMess,
                     alertCol: "danger",
                 });
                 console.log(err.response);

@@ -22,7 +22,7 @@
   git clone https://github.com/SparshJain2000/blogApp.git
   ```
   ### `Go to /blogApp-backend/ folder`
-  #### Install dependencies
+  #### Install all dev and production dependencies
   ```bash
   npm install
   ```

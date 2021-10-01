@@ -10,10 +10,10 @@
  MERN stack blogging website .
  
 ## Technologies Used -
- ###### Back-end : Node  js, Express JS
+ ###### Back-end : Node JS, Express JS
  ###### Database : Mongo DB
  ###### Authentication : Passport JS
- ###### Front-end : ReactJS, Bootstrap
+ ###### Front-end : React JS, Bootstrap
  
 ## Installation:
   #### Install mongoDB and NodeJS

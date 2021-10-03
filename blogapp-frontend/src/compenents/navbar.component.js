@@ -23,7 +23,6 @@ export default class NavbarComponent extends Component {
         this.logout = this.logout.bind(this);
         this.dropdownToggle = this.dropdownToggle.bind(this);
 
-        // this.addPost = this.addPost.bind(this);
         this.state = {
             isOpen: false,
             navCollapsed: true,
@@ -49,7 +48,6 @@ export default class NavbarComponent extends Component {
             .get("/api/users/current")
             .then((res) => this.setState({ user: res.data.user }))
             .catch((err) => console.log(err.response));
-        // console.log(this.props);
     }
     logout() {
         axios
@@ -128,5 +126,3 @@ export default class NavbarComponent extends Component {
         );
     }
 }
-// export default NavbarComponent;
-// Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti voluptates fugit distinctio, deserunt nostrum itaque et nemo quod quae dolorum qui illo obcaecati totam voluptatem in dicta enim iusto excepturi.
